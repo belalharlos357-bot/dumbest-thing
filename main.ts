@@ -1,7 +1,6 @@
-import { readFileSync as read } from "node:fs";
-import { fileURLToPath as toPath } from "node:url";
-import { dirname as dirOf, join as joinPath } from "node:path";
+import { readFileSync } from "node:fs";
 
-const here = dirOf(toPath(import.meta.url));
-const report = read(joinPath(here, "entry.txt"), "utf8").trim();
-console.log(report);
+const entryUrl = new URL("entry.txt", import.meta.url);
+const raw = readFileSync(entryUrl, { encoding: "utf8" });
+const cleaned = raw.replace(/^\s+|\s+$/g, "");
+process.stdout.write(cleaned + "\n");
